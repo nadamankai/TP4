@@ -1,0 +1,38 @@
+type UserTest{
+    name:String
+    firstname:String
+}
+type Query {
+    cvs:[cv]
+    getCv(id:Int):cv
+    skills:[skill]
+    getSkill(id:Int):skill
+    users:[user]
+    getUser(id:Int):user
+}
+enum Role{
+    USER
+    ADMIN
+}
+
+type user{
+    id: Int,
+    name: String,
+    email: String,
+    role: Role,
+    cvs: [cv]
+}
+
+type cv{
+    id: Int,
+    name: String,
+    age: Int,
+    job: String,
+    user: user,
+    skills:[skill]
+}
+type skill{
+    id: Int,
+    designation: String,
+    cvs:[cv]
+}
