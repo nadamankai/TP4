@@ -1,0 +1,6 @@
+type Query {
+    cvs:[cv]
+    getCv(id:Int):cv
+    CvSkills:[skill]
+    CvUser:[user]
+}

@@ -1,19 +1,16 @@
 import { createSchema } from "graphql-yoga";
-import { Query } from "./Resolvers/QueryResolver";
-import { user } from "./Resolvers/user";
-import { cv } from "./Resolvers/cv";
-import { skill } from "./Resolvers/skill";
+import { user } from "./Resolvers/query/user";
+import {cv} from "./Resolvers/cv";
+import { skill } from "./Resolvers/query/skill";
 const fs = require("fs");
 const path = require("path");
+const schemaDir = path.join(__dirname, "schema");
+const schemaFiles = fs.readdirSync(schemaDir);
 export const schema = createSchema({
-    typeDefs: fs.readFileSync(
-        path.join(__dirname, "./schema.graphql"),
-        "utf-8"
-    ),
+    typeDefs: schemaFiles
+        .map((file) => fs.readFileSync(path.join(schemaDir, file), "utf-8"))
+        .join("\n"),
     resolvers: {
-        Query,
-        user,
-        cv,
-        skill
+        ...cv
     },
 });

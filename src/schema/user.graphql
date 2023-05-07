@@ -1,0 +1,16 @@
+enum Role{
+    USER
+    ADMIN
+}
+
+type user{
+    id: Int,
+    name: String,
+    email: String,
+    role: Role,
+    cvs: [cv]
+}
+type UserTest{
+    name:String
+    firstname:String
+}

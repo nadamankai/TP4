@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import { createYoga } from "graphql-yoga";
 import { schema } from "./schema";
-import { db } from "./db/db";
+import { db } from "./database/db";
 const yoga = createYoga({ schema, context: { db: db } });
 const server = createServer(yoga);
 server.listen(4000, () => {
