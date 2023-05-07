@@ -1,7 +1,6 @@
-import { createSchema } from "graphql-yoga";
-import { user } from "./Resolvers/query/user";
+import {createSchema} from "graphql-yoga";
 import {cv} from "./Resolvers/cv";
-import { skill } from "./Resolvers/query/skill";
+
 const fs = require("fs");
 const path = require("path");
 const schemaDir = path.join(__dirname, "schema");

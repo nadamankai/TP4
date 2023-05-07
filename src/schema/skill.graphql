@@ -1,5 +1,4 @@
 type skill{
     id: Int,
     designation: String,
-    cvs:[cv]
 }

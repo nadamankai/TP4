@@ -7,8 +7,7 @@ type user{
     id: Int,
     name: String,
     email: String,
-    role: Role,
-    cvs: [cv]
+    role: Role
 }
 type UserTest{
     name:String

@@ -6,3 +6,10 @@ type cv{
     user: user,
     skills:[skill]
 }
+
+input cvDto {
+    name: String,
+    age: Int,
+    job: String,
+    userId: Int
+}

@@ -1,6 +1,6 @@
 type Query {
     cvs:[cv]
-    getCv(id:Int):cv
-    CvSkills:[skill]
-    CvUser:[user]
+    getCv(id:Int!):cv
+    CvSkills(id:Int!):[skill]
+    CvUser(id:Int!):user
 }

@@ -1,3 +1,5 @@
 type Mutation {
-    hi:String
+    addCv (cv:cvDto!) :cv
+    changeCv (id:Int!,cv:cvDto!) :cv
+    removeCv (id:Int!) : Int
 }

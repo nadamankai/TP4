@@ -1,8 +1,10 @@
-import { createServer } from "node:http";
-import { createYoga } from "graphql-yoga";
-import { schema } from "./schema";
-import { db } from "./database/db";
-const yoga = createYoga({ schema, context: { db: db } });
+import {createServer} from "node:http";
+import {createPubSub, createYoga} from "graphql-yoga";
+import {schema} from "./schema";
+import {db} from "./database/db";
+
+const pubSub = createPubSub();
+const yoga = createYoga({schema, context: {db}});
 const server = createServer(yoga);
 server.listen(4000, () => {
     console.info(`
