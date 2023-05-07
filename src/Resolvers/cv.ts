@@ -2,10 +2,10 @@ import {GraphQLError} from "graphql/error";
 
 export const cv = {
     Query: {
-        cvs: (parent, args, {db}, info) => {
+        cvs: (parent, args, {db,pubSub}, info) => {
             return db.cv
         },
-        getCv: (parent, {id}, {db}, info) => {
+        getCv: (parent, {id}, {db,pubSub}, info) => {
             const cv = db.cv.find((cv) => cv.id === id)
             if (!cv) {
                 throw new GraphQLError(`CV with id '${id}' not found.`, {
@@ -21,7 +21,7 @@ export const cv = {
             }
             return cv
         },
-        CvSkills: (_, {id}, {db}) => {
+        CvSkills: (_, {id}, {db,pubSub}) => {
             const cv = db.cv.find((cv) => cv.id === id)
             if (!cv) {
                 throw new GraphQLError(`CV with id '${id}' not found.`, {
@@ -37,7 +37,7 @@ export const cv = {
             }
             return cv.skills
         },
-        CvUser: (_, {id}, {db}) => {
+        CvUser: (_, {id}, {db,pubSub}) => {
             const cv = db.cv.find((cv) => cv.id === id)
             if (!cv) {
                 throw new GraphQLError(`CV with id '${id}' not found.`, {
@@ -55,12 +55,13 @@ export const cv = {
         }
     },
     Mutation: {
-        addCv: (cvs, {cv}, {db}) => {
+        addCv: (cvs, {cv}, {db,pubSub}) => {
             cv = {...cv, id: Math.floor(Math.random() * 100000000)}
             db.cv.push(cv)
+            pubSub.publish("cv",  cv );
             return cv
         },
-        changeCv: (cvs, {id, cv}, {db}) => {
+        changeCv: (cvs, {id, cv}, {db,pubSub}) => {
             const index = db.cv.findIndex((cv) => cv.id === id)
             if (!cv) {
                 throw new GraphQLError(`CV with id '${id}' not found.`, {
@@ -76,21 +77,26 @@ export const cv = {
             }
             cv = {...db.cv[index], ...cv}
             db.cv.splice(index, 1, cv);
+            pubSub.publish("cv", cv);
             return cv
         },
-        removeCv: (cvs, {id}, {db}) => {
+        removeCv: (cvs, {id}, {db,pubSub}) => {
             db.cv = db.cv.filter(item => item.id !== id);
+            pubSub.publish("cv", cv );
+
             return 1
         }
     },
     Subscription : {
         onChange: {
-            subscribe: () => {
-
+            subscribe: (_,args,{db,pubSub}) => {
+              return  pubSub.subscribe("cv")
             },
-            resolve: () => {
+            resolve: (payload) => {
 
-            }
+                return payload;},
+
+
         }
     }
 }

@@ -4,7 +4,7 @@ import {schema} from "./schema";
 import {db} from "./database/db";
 
 const pubSub = createPubSub();
-const yoga = createYoga({schema, context: {db}});
+const yoga = createYoga({schema, context: {db,pubSub}});
 const server = createServer(yoga);
 server.listen(4000, () => {
     console.info(`
