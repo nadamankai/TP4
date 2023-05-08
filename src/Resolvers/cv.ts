@@ -58,7 +58,7 @@ export const cv = {
         addCv: (cvs, {cv}, {db,pubSub}) => {
             cv = {...cv, id: Math.floor(Math.random() * 100000000)}
             db.cv.push(cv)
-            pubSub.publish("cv",  cv );
+            pubSub.publish("cv", {cv, action: "add"});
             return cv
         },
         changeCv: (cvs, {id, cv}, {db,pubSub}) => {
@@ -77,12 +77,13 @@ export const cv = {
             }
             cv = {...db.cv[index], ...cv}
             db.cv.splice(index, 1, cv);
-            pubSub.publish("cv", cv);
+            pubSub.publish("cv", {cv: db.cv[index], action: "change"});
             return cv
         },
         removeCv: (cvs, {id}, {db,pubSub}) => {
-            db.cv = db.cv.filter(item => item.id !== id);
-            pubSub.publish("cv", cv );
+            const index = db.cv.findIndex(item => item.id === id)
+            db.cv.slice(index, 1)
+            pubSub.publish("cv", {cv: db.cv[index], action: "delete"});
 
             return 1
         }
